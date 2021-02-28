@@ -1,0 +1,71 @@
+---
+BasedOnStyle:  Google
+AccessModifierOffset: -3 
+ConstructorInitializerIndentWidth: 4
+AlignEscapedNewlines: Left
+AlignTrailingComments: true
+AlignConsecutiveAssignments: true
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakTemplateDeclarations: true
+AlwaysBreakBeforeMultilineStrings: true
+BreakBeforeBinaryOperators: None
+BreakBeforeTernaryOperators: true
+BreakConstructorInitializers: BeforeComma
+BinPackParameters: false
+BinPackArguments: false
+ColumnLimit:    80
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
+
+#DerivePointerBinding: false
+#PointerBindsToType: true
+DerivePointerAlignment: true
+PointerAlignment: Left
+
+ExperimentalAutoDetectBinPacking: false
+IndentCaseLabels: true
+MaxEmptyLinesToKeep: 1
+NamespaceIndentation: None
+ObjCSpaceBeforeProtocolList: true
+PenaltyBreakBeforeFirstCallParameter: 19
+PenaltyBreakComment: 60
+PenaltyBreakString: 1
+PenaltyBreakFirstLessLess: 1000
+PenaltyExcessCharacter: 1000
+PenaltyReturnTypeOnItsOwnLine: 90000
+SpacesBeforeTrailingComments: 2
+Cpp11BracedListStyle: true
+Standard:        Cpp11
+IndentWidth:     4
+TabWidth:        4
+UseTab:          Never
+#IndentFunctionDeclarationAfterType: false
+SpacesInParentheses: false
+SpacesInAngles:  false
+SpaceInEmptyParentheses: false
+SpacesInCStyleCastParentheses: false
+SpaceAfterControlStatementKeyword: true
+SpaceBeforeAssignmentOperators: true
+ContinuationIndentWidth: 4
+SortIncludes: true
+SpaceAfterCStyleCast: false
+
+# Configure each individual brace in BraceWrapping
+BreakBeforeBraces: Custom
+
+# Control of individual brace wrapping cases
+BraceWrapping: {
+    AfterClass: 'false'
+    AfterControlStatement: 'false'
+    AfterEnum : 'false'
+    AfterFunction : 'false'
+    AfterNamespace : 'false'
+    AfterStruct : 'false'
+    AfterUnion : 'false'
+    BeforeCatch : 'false'
+    BeforeElse : 'false'
+    IndentBraces : 'false'
+}
