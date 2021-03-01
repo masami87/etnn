@@ -24,13 +24,20 @@ inline void print(const vector<int>& v) {
     }
     cout << "}\n";
 }
-int main() {
+int main(int argc, char** argv) {
+    if (argc != 2) {
+        std::cerr << "usage: " << argv[0] << "the path to mnist dataset."
+                  << endl;
+        return 1;
+    }
+    std::string path = argv[1];
+
     auto ctx = createCudaContext();
 
     int batch       = 64;
-    auto dataloader = new BatchDataset(new MNIST("../../data", false), batch);
+    auto dataloader = new BatchDataset(new MNIST(path, false), batch);
 
-    auto testloader = new BatchDataset(new MNIST("../../data", true), batch);
+    auto testloader = new BatchDataset(new MNIST(path, true), batch);
 
     auto dp = dataloader->fetch();
 
@@ -54,7 +61,7 @@ int main() {
 
     model->compile("cross_entropy", std::make_shared<CategoricalAccuracy>());
 
-    cout << model->params() << endl;
+    cout <<"The param size of model is: "<< model->params() << endl;
 
     model->print_layer();
 
