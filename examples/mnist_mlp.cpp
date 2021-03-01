@@ -27,18 +27,16 @@ inline void print(const vector<int>& v) {
 int main() {
     auto ctx = createCudaContext();
 
-    int batch = 64;
-    auto dataloader =
-        new BatchDataset(new MNIST("/home/wt/aisys/etnn/data", false), batch);
+    int batch       = 64;
+    auto dataloader = new BatchDataset(new MNIST("../../data", false), batch);
 
-    auto testloader =
-        new BatchDataset(new MNIST("/home/wt/aisys/etnn/data", true), batch);
+    auto testloader = new BatchDataset(new MNIST("../../data", true), batch);
 
     auto dp = dataloader->fetch();
 
     auto input_data = dp.first;
     auto label      = dp.second;
-    input_data->Reshape({batch, 1, 28, 28});
+    input_data->Reshape({batch, 28 * 28});
 
     // printData(input_data);
 
@@ -47,23 +45,11 @@ int main() {
     auto model = new Net(ctx);
     model->set_data(input_data->shape);
 
-    model->add_layer(std::make_shared<Conv2D>("conv1", 1, 16, 3, 1, 1));
-    model->add_layer(std::make_shared<Activation>("sigmoid"));
-    // model->add_layer(std::make_shared<Conv2D>("conv2", 16, 32, 3, 1, 1));
-    // model->add_layer(std::make_shared<Activation>("sigmoid"));
-    // model->add_layer(std::make_shared<Conv2D>("conv3", 32, 64, 3, 1));
-    // model->add_layer(std::make_shared<Activation>("sigmoid"));
-    // model->add_layer(std::make_shared<Dense>("fc1", 256));
-    // TODO:
-    // 通过观察relu层的输出和sigmoid的输出对比发现应该是relu层的输出权值太大导致训练crash了
-    // TODO: 明天记录一下这个问题，改成clipped_relu之后就又可以训练了
-    // model->add_layer(std::make_shared<Activation>("clipped_relu", 1));
     model->add_layer(std::make_shared<Dense>("fc2", 512));
     model->add_layer(std::make_shared<Activation>("sigmoid"));
     model->add_layer(std::make_shared<Dense>("fc2", 64));
     model->add_layer(std::make_shared<Activation>("sigmoid"));
     model->add_layer(std::make_shared<Dense>("fc3", 10));
-    // model->add_layer(std::make_shared<Activation>("relu"));
     model->add_layer(std::make_shared<Softmax>());
 
     model->compile("cross_entropy", std::make_shared<CategoricalAccuracy>());

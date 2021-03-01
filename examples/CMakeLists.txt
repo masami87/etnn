@@ -1,2 +1,2 @@
-add_executable(net "net.cpp")
-target_link_libraries(net ${PROJECT_NAME})
+add_executable(mnist_mlp "mnist_mlp.cpp")
+target_link_libraries(mnist_mlp ${PROJECT_NAME})
