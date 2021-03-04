@@ -12,7 +12,7 @@ class Conv2D final : public Layer {
     int kernel;
     int stride;
     int pad;
-    explicit Conv2D(const std::string &name,
+    Conv2D(const std::string &name,
                     int in_channel,
                     int out_channel,
                     int kernel,

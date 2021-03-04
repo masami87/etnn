@@ -27,7 +27,7 @@ class Activation : public Layer {
 
     cudnnTensorDescriptor_t output_desc;
 
-    explicit Activation(const std::string& name,
+    Activation(const std::string& name,
                         double coef                      = 0,
                         std::shared_ptr<CudaContext> ctx = nullptr);
 

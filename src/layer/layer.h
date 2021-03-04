@@ -14,7 +14,7 @@ class Layer {
     vector<int> input_shape;
     vector<int> output_shape;
 
-    explicit Layer(const std::string &name, std::shared_ptr<CudaContext> &ctx_);
+    Layer(const std::string &name, std::shared_ptr<CudaContext> &ctx_);
 
     Layer(const Layer &) = delete;
     Layer &operator=(const Layer &) = delete;

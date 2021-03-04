@@ -28,7 +28,7 @@ class BatchDataset {
 
     size_t batch_i = 0;
 
-    explicit BatchDataset(Datasets*, int);
+    BatchDataset(Datasets*, int);
 
     ~BatchDataset();
 

@@ -24,7 +24,7 @@ class IRandNormal : public Initializer {
     float mean;
     float stddev;
 
-    explicit IRandNormal(float mean, float stddev)
+    IRandNormal(float mean, float stddev)
         : mean(mean)
         , stddev(stddev) {
     }

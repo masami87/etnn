@@ -8,7 +8,7 @@ class Dense : public Layer {
     int input_size;
     int output_size;
     std::shared_ptr<FloatTensor> one;
-    explicit Dense(const std::string &name,
+    Dense(const std::string &name,
                    int output_size,
                    std::shared_ptr<CudaContext> ctx = nullptr);
     ~Dense();
