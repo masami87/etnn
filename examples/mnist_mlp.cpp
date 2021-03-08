@@ -1,19 +1,7 @@
+#include <etnn/etnn.h>
+
 #include <iostream>
 #include <vector>
-
-#include "../src/dataset.h"
-#include "../src/device.h"
-#include "../src/layer/activation.h"
-#include "../src/layer/conv2D.h"
-#include "../src/layer/data_input.h"
-#include "../src/layer/dense.h"
-#include "../src/layer/input.h"
-#include "../src/layer/loss_layer.h"
-#include "../src/layer/softmax.h"
-#include "../src/loss/cross_entropy.h"
-#include "../src/metric/metric.h"
-#include "../src/network.h"
-#include "../src/utils.h"
 
 using namespace std;
 
@@ -26,7 +14,7 @@ inline void print(const vector<int>& v) {
 }
 int main(int argc, char** argv) {
     if (argc != 2) {
-        std::cerr << "usage: " << argv[0] << "the path to mnist dataset."
+        std::cerr << "usage: " << argv[0] << "<the path to mnist dataset>"
                   << endl;
         return 1;
     }
@@ -61,7 +49,7 @@ int main(int argc, char** argv) {
 
     model->compile("cross_entropy", std::make_shared<CategoricalAccuracy>());
 
-    cout <<"The param size of model is: "<< model->params() << endl;
+    cout << "The param size of model is: " << model->params() << endl;
 
     model->print_layer();
 

@@ -15,6 +15,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
 # Build library
 add_subdirectory(src)
