@@ -11,9 +11,11 @@ SET(ALL_FILES ${PUBLIC_HEADERS} ${CPP_HEADERS} ${CPP_SOURCES} ${CUDA_SOURCES})
 
 ############################# SET LIBRARY #################################
 
-
+set(LIBS pslite protobuf ${ZMQ_LIBRARIES})
 
 add_library(${PROJECT_NAME} SHARED ${ALL_FILES})
+
+target_link_libraries(${PROJECT_NAME} PUBLIC ${LIBS})
 
 target_include_directories(${PROJECT_NAME}
         PUBLIC

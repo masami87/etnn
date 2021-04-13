@@ -12,20 +12,27 @@ inline void print(const vector<int>& v) {
     }
     cout << "}\n";
 }
-int main(int argc, char** argv) {
-    if (argc != 2) {
-        std::cerr << "usage: " << argv[0] << "<the path to mnist dataset>"
-                  << endl;
-        return 1;
+
+void StartServer() {
+    if (!ps::IsServer())
+        return;
+    std::cout << "Server rank: " << ps::MyRank() << " is running." << std::endl;
+    auto server = new SgdDistServer(0.01, 1);  // 同步
+    ps::RegisterExitCallback([server]() { delete server; });
+}
+
+void RunWorker(std::string& file_path) {
+    if (!ps::IsWorker()) {
+        return;
     }
-    std::string path = argv[1];
+    std::cout << "Worker rank: " << ps::MyRank() << " is running." << std::endl;
 
     auto ctx = createCudaContext();
 
     int batch       = 64;
-    auto dataloader = new BatchDataset(new MNIST(path, false), batch);
+    auto dataloader = new BatchDataset(new MNIST(file_path, false), batch);
 
-    auto testloader = new BatchDataset(new MNIST(path, true), batch);
+    auto testloader = new BatchDataset(new MNIST(file_path, true), batch);
 
     auto dp = dataloader->fetch();
 
@@ -35,7 +42,9 @@ int main(int argc, char** argv) {
 
     // printData(input_data);
 
-    auto model = new Net(ctx);
+    auto worker = std::make_shared<DistWorker>();
+
+    auto model = new NetDistributed(worker, ctx);
     model->set_data(input_data->shape);
 
     model->add_layer(std::make_shared<Dense>("fc2", 512));
@@ -52,6 +61,24 @@ int main(int argc, char** argv) {
     model->print_layer();
 
     model->fit(100, 0.005, dataloader, testloader);
+}
+
+int main(int argc, char** argv) {
+    if (argc != 2) {
+        std::cerr << "usage: " << argv[0] << "<the path to mnist dataset>"
+                  << endl;
+        return 1;
+    }
+    std::string path = argv[1];
+
+
+    ps::Start(0);
+
+    StartServer();
+
+    RunWorker(path);
+
+    ps::Finalize(0, true);
 
     return 0;
 }

@@ -1,5 +1,6 @@
 #include "../../src/dataset.h"
 #include "../../src/device.h"
+#include "../../src/distributed/sgd_dist_server.h"
 #include "../../src/layer/activation.h"
 #include "../../src/layer/conv2D.h"
 #include "../../src/layer/data_input.h"
@@ -10,4 +11,5 @@
 #include "../../src/loss/cross_entropy.h"
 #include "../../src/metric/metric.h"
 #include "../../src/network.h"
+#include "../../src/network_distibuted.h"
 #include "../../src/utils.h"

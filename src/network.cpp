@@ -144,6 +144,11 @@ void Net::train(int epoch, BatchDataset* train_data, BatchDataset* test_data) {
             this->backward();
 
             this->updateWeights();
+
+            if (i % 50 == 0) {
+                std::cout << GREEN << "[" << i << "/" << iterations << "]"
+                          << " iter loss: " << loss << std::endl;
+            }
         }
 
         batch_loss /= iterations;

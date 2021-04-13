@@ -1,0 +1,1 @@
+ps -ef | grep mnist_mlp_distributed | awk '{ print $2 }' | xargs kill -9 

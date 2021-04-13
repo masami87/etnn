@@ -36,6 +36,7 @@ class Layer {
     size_t params_size() const;
 
     friend class Net;
+    friend class NetDistributed;
 
  protected:
     std::shared_ptr<CudaContext> ctx;

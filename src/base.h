@@ -3,30 +3,31 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "dmlc/logging.h"
 
-#define CHECK(x)                                                  \
-    if (!(x))                                                     \
-    LogMessageFatal(__FILE__, __LINE__).stream() << "Check "      \
-                                                    "failed: " #x \
-                                                 << ' '
+// #define CHECK(x)                                                  \
+//     if (!(x))                                                     \
+//     LogMessageFatal(__FILE__, __LINE__).stream() << "Check "      \
+//                                                     "failed: " #x \
+//                                                  << ' '
 
-class LogMessageFatal {
- public:
-    LogMessageFatal(const char *file, int line)
-        : log_stream_(std::cerr) {
-        log_stream_ << file << ":" << line << ": ";
-    }
-    ~LogMessageFatal() {
-        log_stream_ << "\n";
-        abort();
-    }
-    std::ostream &stream() {
-        return log_stream_;
-    }
+// class LogMessageFatal {
+//  public:
+//     LogMessageFatal(const char *file, int line)
+//         : log_stream_(std::cerr) {
+//         log_stream_ << file << ":" << line << ": ";
+//     }
+//     ~LogMessageFatal() {
+//         log_stream_ << "\n";
+//         abort();
+//     }
+//     std::ostream &stream() {
+//         return log_stream_;
+//     }
 
- private:
-    std::ostream &log_stream_;
-};
+//  private:
+//     std::ostream &log_stream_;
+// };
 
 
 // the following are UBUNTU/LINUX ONLY terminal color codes.

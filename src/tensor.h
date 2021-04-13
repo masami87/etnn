@@ -123,10 +123,35 @@ class CudaTensor final : public Tensor {
             data, ptr, n_size * sizeof(float), cudaMemcpyHostToDevice));
     }
 
+    void fromHost(const std::vector<float> &vec) {
+        CHECK(vec.size() == size);
+        checkCudaErr(cudaMemcpy(data,
+                                (void *)vec.data(),
+                                size * sizeof(float),
+                                cudaMemcpyHostToDevice));
+    }
+
     void toHost(void *ptr, size_t n_size) {
         CHECK(n_size == size);
         checkCudaErr(cudaMemcpy(
             ptr, data, n_size * sizeof(float), cudaMemcpyDeviceToHost));
+    }
+
+    void toHost(std::vector<float> &vec) {
+        CHECK(vec.size() == size);
+        checkCudaErr(cudaMemcpy((void *)vec.data(),
+                                data,
+                                size * sizeof(float),
+                                cudaMemcpyDeviceToHost));
+    }
+
+    std::vector<float> toHost() {
+        vector<float> vec(size);
+        checkCudaErr(cudaMemcpy((void *)vec.data(),
+                                data,
+                                size * sizeof(float),
+                                cudaMemcpyDeviceToHost));
+        return vec;
     }
 
     void constant(const float value);
