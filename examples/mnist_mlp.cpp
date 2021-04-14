@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
     auto model = new Net(ctx);
     model->set_data(input_data->shape);
 
-    model->add_layer(std::make_shared<Dense>("fc2", 512));
+    model->add_layer(std::make_shared<Dense>("fc1", 512));
     model->add_layer(std::make_shared<Activation>("sigmoid"));
     model->add_layer(std::make_shared<Dense>("fc2", 64));
     model->add_layer(std::make_shared<Activation>("sigmoid"));

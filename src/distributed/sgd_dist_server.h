@@ -72,6 +72,7 @@ class SgdDistServer {
                     weights_[key] = std::move(tmp);
                 }
                 server->Response(req_meta);
+                std::cout << "Server weights init finish." << std::endl;
                 return;
             }
 

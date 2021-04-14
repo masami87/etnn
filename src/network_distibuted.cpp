@@ -127,6 +127,8 @@ void NetDistributed::fit(const int epoch,
                          BatchDataset* train_data,
                          BatchDataset* test_data) {
     // 初始化server的权重
+    std::cout << "Network rank: " << this->rank << " start training"
+              << std::endl;
     this->pushServerWeights();
     this->set_lr(learning_rate);
     this->train(epoch, train_data, test_data);
@@ -164,6 +166,13 @@ void NetDistributed::train(int epoch,
                 push local gradients
             **************************** */
             this->pushGradients();
+
+            if (i % 50 == 0) {
+                std::cout << GREEN << "******** Local Worker Running: " << rank
+                          << " ********" << std::endl;
+                std::cout << GREEN << "[" << i << "/" << iterations << "]"
+                          << " iter loss: " << loss << std::endl;
+            }
         }
 
         batch_loss /= iterations;
