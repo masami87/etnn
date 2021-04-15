@@ -190,6 +190,7 @@ void NetDistributed::train(int epoch,
                   << ": " << batch_metric << std::endl;
 
         if (test_data != nullptr) {
+            this->pullWeights();
             this->test(test_data);
         }
     }

@@ -37,8 +37,7 @@ void RunWorker(std::string& file_path) {
     auto dataloader =
         new BatchDataset(new MNIST(file_path, false, rank, num_wokers), batch);
 
-    auto testloader =
-        new BatchDataset(new MNIST(file_path, true, rank, num_wokers), batch);
+    auto testloader = new BatchDataset(new MNIST(file_path, true), batch);
 
     auto dp = dataloader->fetch();
 

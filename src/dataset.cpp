@@ -65,6 +65,7 @@ float* MNIST::load_data(const std::string& filepath) {
 
         ptr[i] = (float)tmp / 255;
     }
+    ifs.close();
     return ptr;
 }
 
@@ -97,7 +98,7 @@ float* MNIST::load_label(const std::string& filepath) {
         ifs.read((char*)&tmp, sizeof(tmp));
         ptr[i * 10 + tmp] = 1.0f;
     }
-
+    ifs.close();
     return ptr;
 }
 
