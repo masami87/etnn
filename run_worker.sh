@@ -1,1 +1,0 @@
-./local_worker.sh 1 1 build/examples/mnist_mlp_distributed data

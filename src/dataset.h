@@ -18,7 +18,12 @@ class Datasets {
 
     bool is_test = false;
 
-    Datasets(const std::string, bool is_test);
+    // wroker nums in parameter serving
+    int worker_num = 1;
+
+    int rank = 0;
+
+    Datasets(const std::string, bool is_test, int rank = 0, int worker = 1);
 
     virtual ~Datasets();
 
@@ -29,7 +34,7 @@ class MNIST : public Datasets {
  public:
     std::string directory;
 
-    MNIST(const std::string& dir, bool is_test);
+    MNIST(const std::string& dir, bool is_test, int rank = 0, int worker = 1);
 
     void load() override;
 

@@ -5,9 +5,11 @@
 
 static int read_int(std::ifstream& f);
 
-Datasets::Datasets(const std::string name, bool is_test)
+Datasets::Datasets(const std::string name, bool is_test, int rank, int worker)
     : name(name)
-    , is_test(is_test) {
+    , is_test(is_test)
+    , rank(rank)
+    , worker_num(worker) {
     dataset_data  = nullptr;
     dataset_label = nullptr;
 }
@@ -19,8 +21,8 @@ Datasets::~Datasets() {
         delete[] dataset_label;
 }
 
-MNIST::MNIST(const std::string& dir, bool is_test)
-    : Datasets("mnist", is_test)
+MNIST::MNIST(const std::string& dir, bool is_test, int rank, int worker)
+    : Datasets("mnist", is_test, rank, worker)
     , directory(dir) {
 }
 
@@ -38,6 +40,11 @@ float* MNIST::load_data(const std::string& filepath) {
     rows = read_int(ifs);
     cols = read_int(ifs);
 
+    long start = 0;
+    if (this->worker_num > 1) {
+        n /= this->worker_num;
+        start = this->rank * n;
+    }
     vector<int> shape{n, rows * cols};
 
     this->len         = shape[0];
@@ -48,9 +55,14 @@ float* MNIST::load_data(const std::string& filepath) {
         size *= d;
 
     auto ptr = new float[size];
+
+    // current position + start
+    ifs.seekg(start * num_feature * sizeof(uint8_t), std::ios::cur);
+
     for (int i = 0; i < size; i++) {
         uint8_t tmp;
         ifs.read((char*)&tmp, sizeof(tmp));
+
         ptr[i] = (float)tmp / 255;
     }
     return ptr;
@@ -64,12 +76,22 @@ float* MNIST::load_label(const std::string& filepath) {
     // number of images
     int n = read_int(ifs);
 
+    long start = 0;
+    if (this->worker_num > 1) {
+        n /= this->worker_num;
+        start = this->rank * n;
+    }
+
     vector<int> shape{n, 10};
 
     CHECK(n == this->len);
     this->num_label = 10;
 
     auto ptr = new float[n * 10]();
+
+    // current position + start
+    ifs.seekg(start * 10 * sizeof(uint8_t), std::ios::cur);
+
     for (int i = 0; i < n; i++) {
         uint8_t tmp;
         ifs.read((char*)&tmp, sizeof(tmp));

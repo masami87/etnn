@@ -34,7 +34,7 @@ class BatchDataset {
 
     std::pair<std::shared_ptr<FloatTensor>, std::shared_ptr<FloatTensor>>& fetch();
 
-    void reset();
+    void reset(int i = 0);
 
  private:
     std::pair<std::shared_ptr<FloatTensor>, std::shared_ptr<FloatTensor>>

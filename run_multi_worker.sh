@@ -16,16 +16,6 @@ arg="$@"
 # start the scheduler
 export DMLC_PS_ROOT_URI='127.0.0.1'
 export DMLC_PS_ROOT_PORT=12385
-export DMLC_ROLE='scheduler'
-${bin} ${arg} &
-
-
-# start servers
-# export DMLC_ROLE='server'
-# for ((i=0; i<${DMLC_NUM_SERVER}; ++i)); do
-#     export HEAPPROFILE=./S${i}
-#     ${bin} ${arg} &
-# done
 
 # start workers
 export DMLC_ROLE='worker'

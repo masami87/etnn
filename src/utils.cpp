@@ -65,6 +65,6 @@ std::pair<std::shared_ptr<FloatTensor>, std::shared_ptr<FloatTensor>>& BatchData
     return this->data_pair;
 }
 
-void BatchDataset::reset() {
-    this->batch_i = 0;
+void BatchDataset::reset(int i) {
+    this->batch_i = i;
 }
