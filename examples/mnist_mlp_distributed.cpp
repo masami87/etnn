@@ -27,7 +27,7 @@ void RunWorker(std::string& file_path) {
     }
 
     int rank       = ps::MyRank();
-    int num_wokers = ps::GetEnv("DMLC_NUM_WORKER", 1);
+    int num_wokers = ps::NumWorkers();
     std::cout << "Worker rank: [" << rank + 1 << "]/[" << num_wokers << "] "
               << " is running." << std::endl;
 

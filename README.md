@@ -12,7 +12,12 @@ cmake --build .
 ```
 
 ## Example
-Please download MNIST datasets first to data directory and run examples:
+Please download MNIST datasets first to data directory and run example:
 ```
 ./build/examples/mnist_mlp data/
+```
+
+and distributed example:
+```
+./local.sh 1 2 build/examples/mnist_mlp_distributed data
 ```

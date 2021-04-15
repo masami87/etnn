@@ -56,7 +56,9 @@ class DistWorker {
 
         size_t idx = 0;
         for (int i = 0; i < n; i++) {
-            CHECK(weights[i].size() == lens[i]);
+            CHECK(weights[i].size() == lens[i])
+                << "weights[i].size()(" << weights[i].size() << ") != "
+                << "len[i](" << lens[i] << ")";
             for (int j = 0; j < weights[i].size(); j++) {
                 weights[i][j] = values[idx++];
             }

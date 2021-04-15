@@ -1,5 +1,7 @@
 #include "network_distibuted.h"
 
+#include <unistd.h>
+
 #include <iomanip>
 #include <iostream>
 
@@ -262,6 +264,9 @@ void NetDistributed::pushServerWeights() {
     // Each worker will have a unique rank within [0, NumWorkers())
     if (rank == 0) {
         worker->push(this->keys, this->weights);
+    } else {
+        // wait for initing server weights
+        sleep(5);
     }
 }
 
