@@ -1,6 +1,8 @@
 #include "utils.h"
 
+#include <algorithm>
 #include <iostream>
+#include <random>  // std::default_random_engine
 
 void print2D(float* ptr, int r, int c) {
     for (int i = 0; i < r; i++) {
@@ -28,9 +30,11 @@ void printData(std::shared_ptr<FloatTensor> tensor) {
     delete[] ptr;
 }
 
-BatchDataset::BatchDataset(Datasets* dset, int b)
+BatchDataset::BatchDataset(Datasets* dset, int b, bool sf, int seed)
     : dataset(dset)
-    , batch(b) {
+    , batch(b)
+    , shuffle(sf)
+    , seed(seed) {
     dataset->load();
     CHECK(dataset->len != 0) << "The dataset's num is 0!\n";
     this->total_num       = dataset->len;
@@ -44,7 +48,16 @@ BatchDataset::BatchDataset(Datasets* dset, int b)
     this->data_pair.second = std::make_shared<FloatTensor>(
         std::initializer_list<int>{batch, num_label});
     this->label_stride = batch * num_label;
-    this->batch_i      = 0;
+    this->idx          = 0;
+    this->batch_index  = vector<int>(batch_num);
+    for (int i = 0; i < batch_num; i++) {
+        this->batch_index[i] = i;
+    }
+    if (shuffle) {
+        std::shuffle(batch_index.begin(),
+                     batch_index.end(),
+                     std::default_random_engine(seed));
+    }
 }
 
 BatchDataset::~BatchDataset() {
@@ -55,16 +68,17 @@ BatchDataset::~BatchDataset() {
 
 std::pair<std::shared_ptr<FloatTensor>, std::shared_ptr<FloatTensor>>& BatchDataset::
     fetch() {
-    CHECK(batch_i < batch_num) << "There is no more data in the "
-                                  "BatchDataset!\n";
-    this->data_pair.first->fromHost(
-        dataset->dataset_data + batch_i * data_stride, data_stride);
+    CHECK(idx < batch_num) << "There is no more data in the "
+                              "BatchDataset!\n";
+    int index = batch_index[idx];
+    this->data_pair.first->fromHost(dataset->dataset_data + index * data_stride,
+                                    data_stride);
     this->data_pair.second->fromHost(
-        dataset->dataset_label + batch_i * label_stride, label_stride);
-    ++batch_i;
+        dataset->dataset_label + index * label_stride, label_stride);
+    ++idx;
     return this->data_pair;
 }
 
 void BatchDataset::reset(int i) {
-    this->batch_i = i;
+    this->idx = i;
 }

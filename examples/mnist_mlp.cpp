@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
     auto ctx = createCudaContext();
 
     int batch       = 64;
-    auto dataloader = new BatchDataset(new MNIST(path, false), batch);
+    auto dataloader = new BatchDataset(new MNIST(path, false), batch, true);
 
     auto testloader = new BatchDataset(new MNIST(path, true), batch);
 

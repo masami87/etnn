@@ -26,9 +26,15 @@ class BatchDataset {
 
     int label_stride = 0;
 
-    size_t batch_i = 0;
+    size_t idx = 0;
 
-    BatchDataset(Datasets*, int);
+    vector<int> batch_index;
+
+    unsigned long seed = 0;
+
+    bool shuffle = false;
+
+    BatchDataset(Datasets*, int batch, bool shuffle = false, int seed = 42);
 
     ~BatchDataset();
 
@@ -43,5 +49,4 @@ class BatchDataset {
     float* total_data;
 
     float* total_label;
-
 };

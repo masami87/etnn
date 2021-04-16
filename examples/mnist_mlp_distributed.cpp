@@ -1,5 +1,6 @@
 #include <etnn/etnn.h>
 
+#include <chrono>  // std::chrono::system_clock
 #include <iostream>
 #include <vector>
 
@@ -28,16 +29,19 @@ void RunWorker(std::string& file_path) {
 
     int rank       = ps::MyRank();
     int num_wokers = ps::NumWorkers();
+    unsigned seed =
+        rank * std::chrono::system_clock::now().time_since_epoch().count();
     std::cout << "Worker rank: [" << rank + 1 << "]/[" << num_wokers << "] "
               << " is running." << std::endl;
 
     auto ctx = createCudaContext();
 
-    int batch = 64;
-    auto dataloader =
-        new BatchDataset(new MNIST(file_path, false, rank, num_wokers), batch);
+    int batch       = 64;
+    auto dataloader = new BatchDataset(
+        new MNIST(file_path, false, rank, num_wokers), batch, true, seed);
 
-    auto testloader = new BatchDataset(new MNIST(file_path, true), batch);
+    auto testloader =
+        new BatchDataset(new MNIST(file_path, true), batch, false);
 
     auto dp = dataloader->fetch();
 
