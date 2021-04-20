@@ -12,3 +12,7 @@ target_link_libraries(softmax ${PROJECT_NAME})
 
 add_executable(tensor "tensor.cpp")
 target_link_libraries(tensor ${PROJECT_NAME})
+
+
+add_executable(json_test "json.cpp")
+target_link_libraries(json_test ${PROJECT_NAME})

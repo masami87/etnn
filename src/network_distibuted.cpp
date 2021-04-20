@@ -100,7 +100,7 @@ void NetDistributed::set_loss(const std::string& loss_name) {
     ::add_layer(layers.back(), loss);
 }
 
-void NetDistributed::set_data(vector<int>& shape) {
+void NetDistributed::set_data(vector<int> shape) {
     CHECK(layers.empty()) << "The NetDistributedwork is not empty!";
     data_input = std::make_shared<DataInput>(shape);
     this->add(std::make_shared<Input>(data_input.get()));

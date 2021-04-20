@@ -39,7 +39,7 @@ class Net {
 
     void set_loss(const std::string& loss_name);
 
-    void set_data(vector<int>& shape);
+    void set_data(vector<int> shape);
 
     void set_lr(const float learning_rate);
 

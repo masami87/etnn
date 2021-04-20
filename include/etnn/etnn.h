@@ -13,3 +13,4 @@
 #include "../../src/network.h"
 #include "../../src/network_distibuted.h"
 #include "../../src/utils.h"
+#include "../../src/parser.h"

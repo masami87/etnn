@@ -90,7 +90,7 @@ void Net::set_loss(const std::string& loss_name) {
     ::add_layer(layers.back(), loss);
 }
 
-void Net::set_data(vector<int>& shape) {
+void Net::set_data(vector<int> shape) {
     CHECK(layers.empty()) << "The network is not empty!";
     data_input = std::make_shared<DataInput>(shape);
     this->add(std::make_shared<Input>(data_input.get()));

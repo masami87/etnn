@@ -18,7 +18,7 @@ void StartServer() {
     if (!ps::IsServer())
         return;
     std::cout << "Server rank: " << ps::MyRank() << " is running." << std::endl;
-    auto server = new SgdDistServer(0.01, 1);  // 同步
+    auto server = new SgdDistServer(0.005, 1);  // 同步
     ps::RegisterExitCallback([server]() { delete server; });
 }
 
@@ -27,18 +27,18 @@ void RunWorker(std::string& file_path) {
         return;
     }
 
-    int rank       = ps::MyRank();
+    int rank       = ps::MyRank() + 1;
     int num_wokers = ps::NumWorkers();
     unsigned seed =
         rank * std::chrono::system_clock::now().time_since_epoch().count();
-    std::cout << "Worker rank: [" << rank + 1 << "]/[" << num_wokers << "] "
+    std::cout << "Worker rank: [" << rank << "]/[" << num_wokers << "] "
               << " is running." << std::endl;
 
     auto ctx = createCudaContext();
 
-    int batch       = 64;
-    auto dataloader = new BatchDataset(
-        new MNIST(file_path, false, rank, num_wokers), batch, true, seed);
+    int batch = 64;
+    auto dataloader =
+        new BatchDataset(new MNIST(file_path, false), batch, true, seed);
 
     auto testloader =
         new BatchDataset(new MNIST(file_path, true), batch, false);
@@ -70,6 +70,8 @@ void RunWorker(std::string& file_path) {
     model->print_layer();
 
     model->fit(100, 0.005, dataloader, testloader);
+
+    delete model;
 }
 
 int main(int argc, char** argv) {

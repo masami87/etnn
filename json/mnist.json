@@ -1,0 +1,35 @@
+{
+    "batch": 64,
+    "epoch": 100,
+    "lr": 0.005,
+    "input_shape": [
+        64,
+        784
+    ],
+    "arch": [
+        {
+            "type": "dense",
+            "name": "fc1",
+            "dim": 512
+        },
+        {
+            "type": "sigmoid"
+        },
+        {
+            "type": "dense",
+            "name": "fc2",
+            "dim": 64
+        },
+        {
+            "type": "sigmoid"
+        },
+        {
+            "type": "dense",
+            "name": "fc3",
+            "dim": 10
+        },
+        {
+            "type": "softmax"
+        }
+    ]
+}

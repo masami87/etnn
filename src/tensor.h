@@ -63,8 +63,11 @@ class Tensor {
         }
         CHECK(sz > 0) << "(Tensor shape must be non zero!)";
         if (this->size != 0) {
-            CHECK(this->size == sz) << "(Reshape cannot change the size of "
-                                       "tensor!)";
+            CHECK(this->size == sz)
+                << "(Reshape(sz == "<< sz <<") cannot change the size("
+                << this->size
+                << ") of "
+                   "tensor!)";
         }
         this->size = sz;
     }

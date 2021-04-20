@@ -53,5 +53,7 @@ int main(int argc, char** argv) {
 
     model->fit(100, 0.005, dataloader, testloader);
 
+    delete model;
+
     return 0;
 }
